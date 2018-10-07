@@ -31,7 +31,7 @@ public class RideController {
   RideService rideService;
 
   @PostMapping(path ="/api/ride")
-  public ResponseEntity<Ride> createNewRide(@RequestBody Ride ride) {
+  public ResponseEntity<Ride> createNewRide(@RequestBody Ride ride) throws Exception {
     return ResponseEntity.ok(rideService.save(ride));
   }
   
@@ -57,10 +57,7 @@ public class RideController {
       @RequestParam(value="startTime", required=true) @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startTime,
       @RequestParam(value="endTime", required=true) @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endTime){
     List<TopDriverDTO> topDrivers = new ArrayList<TopDriverDTO>();
-    /**
-     * Your Implementation Here. And Fill up topDrivers Arraylist with Top
-     * 
-     */
+   topDrivers = rideService.getTopDriver(startTime,endTime);
     
     return ResponseEntity.ok(topDrivers);
     

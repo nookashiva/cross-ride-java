@@ -4,6 +4,8 @@
 package com.crossover.techtrial.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ride")
-public class Ride implements Serializable{
+public class Ride implements Serializable,Comparable{
 
   private static final long serialVersionUID = 9097639215351514001L;
 
@@ -152,6 +154,20 @@ public class Ride implements Serializable{
   public String toString() {
     return "Ride [id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", distance=" + distance + ", driver=" + driver + ", rider=" + rider + "]";
   }
+
+@Override
+public int compareTo(Object obj) {
+
+	Ride ride = (Ride) obj;
+	LocalDateTime startTime = LocalDateTime.parse(ride.getStartTime());
+	LocalDateTime endTime = LocalDateTime.parse(ride.getEndTime());
+	LocalDateTime hours = endTime.minusHours(startTime.getHour());
+	
+	LocalDateTime startTimeThis = LocalDateTime.parse(this.getStartTime());
+	LocalDateTime endTimeThis = LocalDateTime.parse(this.getEndTime());
+	LocalDateTime hoursThis = endTimeThis.minusHours(startTimeThis.getHour());
+	return hours.getHour()-hoursThis.getHour();
+}
   
   
   
